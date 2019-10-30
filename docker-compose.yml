@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  api:
+    build: .
+    volumes:
+      - "./api:/app"
+    ports:
+      - "3003:3000"
+    depends_on:
+      - db
+    network_mode: "host"      
+  
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: scraperplus
+      MYSQL_USER: scraperplus
+      MYSQL_PASSWORD: scraperplus
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/data/db:/var/lib/mysql
+
+  # migration:
+  #   image: node:alpine
+  #   container_name: scraperplus_migration
+  #   volumes:
+  #     - ./api:/app
+  #   working_dir: /app
+  #   restart: on-failure:5
+  #   depends_on:
+  #     - db
+  #     - api
+  #   command: sh -c "./node_modules/.bin/sequelize db:migrate && ./node_modules/.bin/sequelize db:seed:all"      
+          
