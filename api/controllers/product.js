@@ -9,6 +9,7 @@ const findAll = async (req, res, next) => {
     Product.findAll({
       offset,
       limit: 5,
+      order: [['price', 'asc']],
     }).then((products) => {
       // Send all products to Client
       res.status(200).send({
